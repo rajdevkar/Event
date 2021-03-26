@@ -1,0 +1,165 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<style>
+    /*Form fields*/
+    .dataTables_wrapper select,
+    .dataTables_wrapper .dataTables_filter input {
+        color: #4a5568; 			/*text-gray-700*/
+        padding-left: 1rem; 		/*pl-4*/
+        padding-right: 1rem; 		/*pl-4*/
+        padding-top: .5rem; 		/*pl-2*/
+        padding-bottom: .5rem; 		/*pl-2*/
+        line-height: 1.25; 			/*leading-tight*/
+        border-width: 2px; 			/*border-2*/
+        border-radius: .25rem; 		
+        border-color: #edf2f7; 		/*border-gray-200*/
+        background-color: #edf2f7; 	/*bg-gray-200*/
+    }
+
+    /*Row Hover*/
+    table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
+        background-color: #ebf4ff;	/*bg-indigo-100*/
+    }
+    
+    /*Pagination Buttons*/
+    .dataTables_wrapper .dataTables_paginate .paginate_button		{
+        font-weight: 700;				/*font-bold*/
+        border-radius: .25rem;			/*rounded*/
+        border: 1px solid transparent;	/*border border-transparent*/
+    }
+    
+    /*Pagination Buttons - Current selected */
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current	{
+        color: #fff !important;				/*text-white*/
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06); 	/*shadow*/
+        font-weight: 700;					/*font-bold*/
+        border-radius: .25rem;				/*rounded*/
+        background: #667eea !important;		/*bg-indigo-500*/
+        border: 1px solid transparent;		/*border border-transparent*/
+    }
+
+    /*Pagination Buttons - Hover */
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover		{
+        color: #fff !important;				/*text-white*/
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);	 /*shadow*/
+        font-weight: 700;					/*font-bold*/
+        border-radius: .25rem;				/*rounded*/
+        background: #667eea !important;		/*bg-indigo-500*/
+        border: 1px solid transparent;		/*border border-transparent*/
+    }
+    
+    /*Add padding to bottom border */
+    table.dataTable.no-footer {
+        border-bottom: 1px solid #e2e8f0;	/*border-b-1 border-gray-300*/
+        margin-top: 0.75em;
+        margin-bottom: 0.75em;
+    }
+    
+    /*Change colour of responsive icon*/
+    table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+        background-color: #667eea !important; /*bg-indigo-500*/
+    }
+</style>
+
+<nav class="flex items-center bg-black shadow-lg justify-between bg-teal p-6 px-20">
+    <div class="flex items-center flex-no-shrink text-white mr-6">
+        <a class="font-semibold text-xl tracking-tight" href="{% url 'dashboard' %}">Sports Event Managment</a>
+    </div>
+    <div class="flex items-center space-x-4">
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Logout</a>
+            <a href="{% url 'password_change' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Change Password</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Login</a>
+            <a href="{% url 'register' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Register</a>
+        {% endif %}
+    </div>
+</nav>
+
+
+<div class="container w-full md:w-4/5 mx-auto px-2 mt-4 md:mt-14">
+    <div id='recipients' class="flex flex-col space-y-4 p-4 mt-6 lg:mt-0 rounded shadow bg-white">
+        <a class="bg-blue-500 hover:bg-blue-700 flex-none w-40 text-white font-bold py-2 px-4 rounded" href="{% url 'add_tournaments' %}">
+            Add Tournament
+        </a>
+        <table id="example" class="datatable stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+            <thead>
+                <tr>
+                    <th data-priority="1">ID</th>
+                    <th data-priority="2">Level</th>
+                    <th data-priority="3">Tournament</th>
+                    <th data-priority="4">Gender</th>
+                    <th data-priority="5">Date</th>
+                    <th data-priority="6">Venue</th>
+                    <th data-priority="7">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript" language="javascript" class="init">
+    $(document).ready(function() {
+        var dt_table = $('.datatable').DataTable({
+            order: [[ 0, "desc" ]],
+            columnDefs: [
+                {
+                    name: 'id',
+                    orderable: true,
+                    searchable: true,
+                    targets: [0]
+                },
+                {
+                    name: 'level',
+                    orderable: true,
+                    searchable: true,
+                    targets: [1]
+                },
+                {
+                    name: 'tournament',
+                    orderable: true,
+                    searchable: true,
+                    targets: [2]
+                },
+                {
+                    name: 'gender',
+                    orderable: true,
+                    searchable: true,
+                    targets: [3]
+                },
+                {
+                    name: 'date',
+                    orderable: true,
+                    searchable: true,
+                    targets: [4]
+                },
+                {
+                    name: 'venue',
+                    orderable: true,
+                    searchable: true,
+                    targets: [5]
+                }, 
+                {
+                    targets: [6],
+                    data: null,
+                    defaultContent: "<button id='edit' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Edit</button><button class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2'>Delete</button>"
+                }
+            ],
+            searching: false,
+            processing: true,
+            serverSide: true,
+            stateSave: true,
+            ajax: "{% url 'getTournament' %}"
+        });
+
+        $('.datatable tbody').on( 'click', '#edit', function () {
+            var data = dt_table.row( $(this).parents('tr') ).data();
+            window.location.href = "/edit/" + data[0] + "/tournament";
+        } );
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <nav class="fixed w-screen flex items-center bg-black shadow-lg justify-between bg-teal p-6 px-20">
+        <div class="flex items-center flex-no-shrink text-white mr-6">
+            <a class="font-semibold text-xl tracking-tight" href="{% url 'dashboard' %}">Sports Event Managment</a>
+        </div>
+    </nav>
+
+    <div class="flex flex-col items-center justify-center h-screen">
+        <span class="text-2xl font-bold">LOGIN</span>
+
+        <form method="post" class="p-6 my-6 bg-gray-200 rounded shadow-sm">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Login" class="w-full bg-black text-white cursor-pointer rounded shadow-sm hover:shadow-lg p-2 mt-4">
+        </form>
+
+        <span>Back to <a href="{% url 'dashboard' %}" class="font-semibold">dashboard</a></span>
+        <a href="{% url 'register' %}" class="font-semibold">Register</a>
+    </div>
+{% endblock %}
