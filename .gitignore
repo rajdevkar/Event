@@ -1,6 +1,5 @@
 node_modules
 Lib
 Scripts
-staticfiles
 pyvenv.cfg
 package-lock.json
