@@ -11,3 +11,9 @@ class TournamentForm(forms.Form):
    gender = forms.CharField(max_length = 20)
    date = forms.DateField()
    venue = forms.CharField(max_length = 60)
+
+class WinnerForm(forms.Form):
+   tournament = forms.CharField(max_length = 20)
+   gold = forms.CharField(max_length = 100)
+   silver = forms.CharField(max_length = 100)
+   bronze = forms.CharField(max_length = 100)

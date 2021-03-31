@@ -77,18 +77,18 @@
                         </div>
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                Deleted tournament
+                                Delete Winners
                             </h3>
                             <div class="mt-2">
                                 <p class="text-sm text-gray-500">
-                                Are you sure you want to deleted this tournament?
+                                Are you sure you want to deleted this winner list?
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <form action="{% url 'delete_tournament' %}" method="post" class="m-0">
+                    <form action="{% url 'delete_winners' %}" method="post" class="m-0">
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button id="cancel" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
@@ -124,20 +124,19 @@
 <div class="container w-full md:w-4/5 mx-auto px-2 mt-4 md:mt-14">
     <div id='recipients' class="flex flex-col space-y-4 p-4 mt-6 lg:mt-0 rounded shadow bg-white">
         {% if user.is_authenticated %}
-        <a class="bg-blue-500 hover:bg-blue-700 flex-none w-40 text-white font-bold py-2 px-4 rounded" href="{% url 'add_tournaments' %}">
-            Add Tournament
+        <a class="bg-blue-500 hover:bg-blue-700 flex-none w-36 text-center text-white font-bold py-2 px-4 rounded" href="{% url 'add_winners' %}">
+            Add Winners
         </a>
         {% endif %}
         <table id="example" class="datatable stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
             <thead>
                 <tr>
                     <th data-priority="1">ID</th>
-                    <th data-priority="2">Level</th>
-                    <th data-priority="3">Tournament</th>
-                    <th data-priority="4">Gender</th>
-                    <th data-priority="5">Date</th>
-                    <th data-priority="6">Venue</th>
-                    <th data-priority="7">Action</th>
+                    <th data-priority="2">Tournament</th>
+                    <th data-priority="3">Gold</th>
+                    <th data-priority="4">Silver</th>
+                    <th data-priority="5">Bronze</th>
+                    <th data-priority="6">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -159,46 +158,40 @@
                     targets: [0]
                 },
                 {
-                    name: 'level',
+                    name: 'winners_for',
                     orderable: false,
-                    searchable: false,
+                    searchable: true,
                     targets: [1]
                 },
                 {
-                    name: 'tournament',
+                    name: 'gold',
                     orderable: false,
                     searchable: true,
                     targets: [2]
                 },
                 {
-                    name: 'gender',
+                    name: 'silver',
                     orderable: false,
-                    searchable: false,
+                    searchable: true,
                     targets: [3]
                 },
                 {
-                    name: 'date',
+                    name: 'bronze',
                     orderable: false,
-                    searchable: false,
+                    searchable: true,
                     targets: [4]
                 },
-                {
-                    name: 'venue',
-                    orderable: false,
-                    searchable: false,
-                    targets: [5]
-                }, 
                 {
                     visible: true,
                     orderable: false,
                     searchable: false,
                     data: null,
-                    targets: [6],
+                    targets: [5],
                     defaultContent: "<button id='edit' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Edit</button><button id='delete' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2'>Delete</button>"
                 }
             ],
             searching: true,
-            ajax: "{% url 'getTournament' %}"
+            ajax: "{% url 'getWinners' %}"
         });
 
         // Apply the search
@@ -216,7 +209,7 @@
 
         $('.datatable tbody').on( 'click', '#edit', function () {
             var data = dt_table.row( $(this).parents('tr') ).data();
-            window.location.href = "/edit/" + data[0] + "/tournament";
+            window.location.href = "/edit/" + data[0] + "/winners";
         });
 
         $('.datatable tbody').on( 'click', '#delete', function () {
@@ -242,35 +235,29 @@
                     targets: [0]
                 },
                 {
-                    name: 'level',
+                    name: 'tournament',
                     orderable: false,
-                    searchable: false,
+                    searchable: true,
                     targets: [1]
                 },
                 {
-                    name: 'tournament',
+                    name: 'gold',
                     orderable: false,
                     searchable: true,
                     targets: [2]
                 },
                 {
-                    name: 'gender',
+                    name: 'silver',
                     orderable: false,
-                    searchable: false,
+                    searchable: true,
                     targets: [3]
                 },
                 {
-                    name: 'date',
+                    name: 'bronze',
                     orderable: false,
-                    searchable: false,
+                    searchable: true,
                     targets: [4]
                 },
-                {
-                    name: 'venue',
-                    orderable: false,
-                    searchable: false,
-                    targets: [5]
-                }, 
                 {
                     visible: false,
                     orderable: false,
@@ -281,7 +268,7 @@
                 }
             ],
             searching: true,
-            ajax: "{% url 'getTournament' %}"
+            ajax: "{% url 'getWinners' %}"
         });
 
         // Apply the search
@@ -299,7 +286,7 @@
 
         $('.datatable tbody').on( 'click', '#edit', function () {
             var data = dt_table.row( $(this).parents('tr') ).data();
-            window.location.href = "/edit/" + data[0] + "/tournament";
+            window.location.href = "/edit/" + data[0] + "/winners";
         });
 
         $('.datatable tbody').on( 'click', '#delete', function () {

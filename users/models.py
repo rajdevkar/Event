@@ -26,4 +26,14 @@ class Tournament(models.Model):
     venue = models.CharField(max_length=60)
 
     def __unicode__(self):
-        return self.someAttr
+        return self.tournament
+
+class Winners(models.Model):
+    winners_for = models.ForeignKey(
+        Tournament, on_delete=models.CASCADE, related_name='winners_for')
+    gold = models.CharField(max_length=100)
+    silver = models.CharField(max_length=100)
+    bronze = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.winners_for
