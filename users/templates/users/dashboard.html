@@ -11,7 +11,6 @@
                 <a href="{% url 'password_change' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Change Password</a>
             {% else %}
                 <a href="{% url 'login' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Login</a>
-                <a href="{% url 'register' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Register</a>
             {% endif %}
         </div>
     </nav>
@@ -22,7 +21,7 @@
             <a href="{% url 'winners' %}" class="bg-black text-white h-32 w-32 flex items-center justify-center rounded-full">Winners</a>
         </div>
         <div class="flex justify-center space-x-4">
-            <a href="{% url 'tournaments' %}" class="bg-black text-white h-32 w-32 flex items-center justify-center rounded-full">Staff</a>
+            <a href="{% url 'staff' %}" class="bg-black text-white h-32 w-32 flex items-center justify-center text-center rounded-full">Staff<br /> Registration</a>
         </div>
     </div>
 {% endblock %}

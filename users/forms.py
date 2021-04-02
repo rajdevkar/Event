@@ -17,3 +17,7 @@ class WinnerForm(forms.Form):
    gold = forms.CharField(max_length = 100)
    silver = forms.CharField(max_length = 100)
    bronze = forms.CharField(max_length = 100)
+
+class StaffForm(forms.Form):
+   username = forms.CharField(max_length = 100)
+   password = forms.CharField(max_length = 100)

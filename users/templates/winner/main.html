@@ -115,7 +115,6 @@
             <a href="{% url 'password_change' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Change Password</a>
         {% else %}
             <a href="{% url 'login' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Login</a>
-            <a href="{% url 'register' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Register</a>
         {% endif %}
     </div>
 </nav>
@@ -263,8 +262,7 @@
                     orderable: false,
                     searchable: false,
                     data: null,
-                    targets: [6],
-                    defaultContent: "<button id='edit' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Edit</button><button id='delete' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2'>Delete</button>"
+                    targets: [5]
                 }
             ],
             searching: true,
@@ -282,20 +280,6 @@
                         .draw();
                 }
             });
-        });
-
-        $('.datatable tbody').on( 'click', '#edit', function () {
-            var data = dt_table.row( $(this).parents('tr') ).data();
-            window.location.href = "/edit/" + data[0] + "/winners";
-        });
-
-        $('.datatable tbody').on( 'click', '#delete', function () {
-            var data = dt_table.row( $(this).parents('tr') ).data();
-            $(".modal-body #id").val(data[0]);
-            $('#modal').toggleClass("hidden");
-        });
-        $("#cancel").click(function () {
-            $('#modal').toggleClass("hidden");
         });
     });
 </script>

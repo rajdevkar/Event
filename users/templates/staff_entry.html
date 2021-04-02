@@ -1,0 +1,55 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+    {% if messages %}
+        {% for message in messages %}
+            alert('{{message}}')
+        {% endfor %}
+    {% endif %}
+</script>
+
+<nav class="fixed w-screen flex items-center bg-black shadow-lg justify-between bg-teal p-6 px-20">
+    <div class="flex items-center flex-no-shrink text-white mr-6">
+        <a class="font-semibold text-xl tracking-tight" href="{% url 'dashboard' %}">Sports Event Managment</a>
+    </div>
+    <div class="flex items-center space-x-4">
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Logout</a>
+            <a href="{% url 'password_change' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Change Password</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="flex flex-col items-center justify-center h-screen">
+    <span class="font-bold text-2xl mb-4">
+        Staff Registration
+    </span>
+    <form method="POST" action="{% url 'staff' %}" class="grid grid-cols-2 gap-4 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        {% csrf_token %}
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+            Username
+          </label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" name="username" type="text" placeholder="Username">
+        </div>
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+            Password
+          </label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" type="password" placeholder="Password">
+        </div>
+        <div class="flex items-center justify-between">
+          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+            Register
+          </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

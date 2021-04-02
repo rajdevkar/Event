@@ -9,8 +9,8 @@ from django.contrib import messages
 from django.forms.models import model_to_dict
 from datetime import datetime
 
-from .forms import CustomUserCreationForm, TournamentForm, WinnerForm
-from .models import Tournament, Winners
+from .forms import CustomUserCreationForm, TournamentForm, WinnerForm, StaffForm
+from .models import Tournament, Winners, StaffEntry
 
 def dashboard(request):
     return render(request, "users/dashboard.html")
@@ -79,6 +79,22 @@ def tournaments(request):
 
 def winners(request):
     return render(request, "winner/main.html")
+
+def staff(request):
+    if request.method == 'POST':
+        staffForm = StaffForm(request.POST)
+        if staffForm.is_valid():
+            username = staffForm.cleaned_data['username']
+            password = staffForm.cleaned_data['password']
+            p = StaffEntry(username=username, password=password)
+            p.save()
+            return render(request, "staff_entry.html")
+        else:
+            messages.error(request, staffForm.errors)
+    else:
+      staffForm = StaffForm()
+
+    return render(request, "staff_entry.html")
 
 def addTournament(request):
     if request.method == 'POST':
