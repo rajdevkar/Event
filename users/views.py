@@ -8,9 +8,10 @@ from django.utils.html import escape
 from django.contrib import messages 
 from django.forms.models import model_to_dict
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
-from .forms import CustomUserCreationForm, TournamentForm, WinnerForm, StaffForm
-from .models import Tournament, Winners, StaffEntry
+from .forms import CustomUserCreationForm, TournamentForm, ParticipatedForm, WinnerForm, StaffForm
+from .models import Tournament, Participated, Winners, StaffEntry
 
 def dashboard(request):
     return render(request, "users/dashboard.html")
@@ -48,7 +49,7 @@ class TournamentJson(BaseDatatableView):
     def filter_queryset(self, qs):
         search = self.request.GET.get(u'search[value]', None)
         if search:
-            qs = qs.filter(tournament__startswith=search)
+            qs = qs.filter(tournament__istartswith=search)
         return qs
 
     def get_initial_queryset(self):
@@ -60,12 +61,13 @@ class TournamentJson(BaseDatatableView):
 ## Winner JSON
 class WinnerJson(BaseDatatableView):
     winners = Winners
-    columns = ['id', 'winners_for_id', 'gold', 'silver', 'bronze']
+    columns = ['id', 'winners_for', 'gold', 'silver', 'bronze']
 
     def filter_queryset(self, qs):
         search = self.request.GET.get(u'search[value]', None)
+        print(search)
         if search:
-            qs = qs.filter(winners_for__startswith=search).filter(gold=search).filter(silver=search).filter(bronze=search)
+            qs = qs.filter(winners_for__istartswith=search)
         return qs
 
     def get_initial_queryset(self):
@@ -88,7 +90,7 @@ def staff(request):
             password = staffForm.cleaned_data['password']
             p = StaffEntry(username=username, password=password)
             p.save()
-            return render(request, "staff_entry.html")
+            return render(request, "users/dashboard.html")
         else:
             messages.error(request, staffForm.errors)
     else:
@@ -96,6 +98,7 @@ def staff(request):
 
     return render(request, "staff_entry.html")
 
+@login_required
 def addTournament(request):
     if request.method == 'POST':
         tournamentForm = TournamentForm(request.POST)
@@ -105,7 +108,8 @@ def addTournament(request):
             gender = tournamentForm.cleaned_data['gender']
             date = tournamentForm.cleaned_data['date']
             venue = tournamentForm.cleaned_data['venue']
-            p = Tournament(level=level, tournament=tournament, gender=gender, date=date, venue=venue)
+            added_by = request.user
+            p = Tournament(level=level, tournament=tournament, gender=gender, date=date, venue=venue, added_by=added_by)
             p.save()
             return render(request, "tournament/main.html")
         else:
@@ -115,6 +119,39 @@ def addTournament(request):
 
     return render(request, "tournament/add.html")
 
+def applyTournament(request, id):
+    context={
+        'id': id,
+    }
+    if request.method == 'POST':
+        participatedForm = ParticipatedForm(request.POST)
+        print(participatedForm)
+        if participatedForm.is_valid():
+            participate_for = Tournament.objects.get(pk=id)
+            team_name = participatedForm.cleaned_data['team_name']
+            player_1 = participatedForm.cleaned_data['player_1']
+            player_2 = participatedForm.cleaned_data['player_2']
+            player_3 = participatedForm.cleaned_data['player_3']
+            player_4 = participatedForm.cleaned_data['player_4']
+            player_5 = participatedForm.cleaned_data['player_5']
+            player_6 = participatedForm.cleaned_data['player_6']
+            player_7 = participatedForm.cleaned_data['player_7']
+            player_8 = participatedForm.cleaned_data['player_8']
+            player_9 = participatedForm.cleaned_data['player_9']
+            player_10 = participatedForm.cleaned_data['player_10']
+            player_11 = participatedForm.cleaned_data['player_11']
+            p = Participated(participate_for=participate_for, team_name=team_name, player_1=player_1, player_2=player_2, player_3=player_3, player_4=player_4, player_5=player_5, player_6=player_6, player_7=player_7, player_8=player_8, player_9=player_9, player_10=player_10, player_11=player_11)
+            p.save()
+            return render(request, "tournament/main.html")
+        else:
+            print(participatedForm.errors)
+            messages.error(request, "Error")
+    else:
+      participatedForm = ParticipatedForm()
+
+    return render(request, "tournament/apply.html", context)
+
+@login_required
 def addWinners(request):
     tournaments = Tournament.objects.all()
     context={
@@ -138,6 +175,7 @@ def addWinners(request):
 
     return render(request, "winner/add.html", context)
 
+@login_required
 def editTournament(request, id):
     oldTournament = Tournament.objects.get(pk=id)
     if request.method == 'POST':
@@ -153,6 +191,7 @@ def editTournament(request, id):
         tournamentForm = TournamentForm()
     return render(request, "tournament/edit.html", model_to_dict(oldTournament))
 
+@login_required
 def editWinners(request, id):
     oldWinners = Winners.objects.get(pk=id)
     tournaments = Tournament.objects.all()
@@ -172,12 +211,14 @@ def editWinners(request, id):
     else:
         winnerForm = WinnerForm()
     return render(request, "winner/edit.html", context)
-    
+ 
+@login_required   
 def delTournament(request):
     if request.method == 'POST':
         Tournament.objects.get(pk=request.POST.get('id',None)).delete()
     return redirect("tournaments")
-    
+   
+@login_required 
 def delWinners(request):
     if request.method == 'POST':
         Winners.objects.get(pk=request.POST.get('id',None)).delete()

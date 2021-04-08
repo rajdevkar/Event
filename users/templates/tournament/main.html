@@ -154,63 +154,42 @@
                 {
                     name: 'id',
                     orderable: false,
-                    searchable: false,
                     targets: [0]
                 },
                 {
                     name: 'level',
                     orderable: false,
-                    searchable: false,
                     targets: [1]
                 },
                 {
                     name: 'tournament',
                     orderable: false,
-                    searchable: true,
                     targets: [2]
                 },
                 {
                     name: 'gender',
                     orderable: false,
-                    searchable: false,
                     targets: [3]
                 },
                 {
                     name: 'date',
                     orderable: false,
-                    searchable: false,
                     targets: [4]
                 },
                 {
                     name: 'venue',
                     orderable: false,
-                    searchable: false,
                     targets: [5]
                 }, 
                 {
                     visible: true,
                     orderable: false,
-                    searchable: false,
                     data: null,
                     targets: [6],
                     defaultContent: "<button id='edit' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Edit</button><button id='delete' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2'>Delete</button>"
                 }
             ],
-            searching: true,
             ajax: "{% url 'getTournament' %}"
-        });
-
-        // Apply the search
-        dt_table.columns().every( function () {
-            var that = this;
-            $('input', this.footer() ).on( 'keyup change', function () {
-    
-                if ( that.search() !== this.value) {
-                    that
-                        .search( this.value )
-                        .draw();
-                }
-            });
         });
 
         $('.datatable tbody').on( 'click', '#edit', function () {
@@ -237,68 +216,46 @@
                 {
                     name: 'id',
                     orderable: false,
-                    searchable: false,
                     targets: [0]
                 },
                 {
                     name: 'level',
                     orderable: false,
-                    searchable: false,
                     targets: [1]
                 },
                 {
                     name: 'tournament',
                     orderable: false,
-                    searchable: true,
                     targets: [2]
                 },
                 {
                     name: 'gender',
                     orderable: false,
-                    searchable: false,
                     targets: [3]
                 },
                 {
                     name: 'date',
                     orderable: false,
-                    searchable: false,
                     targets: [4]
                 },
                 {
                     name: 'venue',
                     orderable: false,
-                    searchable: false,
                     targets: [5]
                 }, 
                 {
                     orderable: false,
-                    searchable: false,
                     data: null,
                     targets: [6],
                     defaultContent: "<button id='apply' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Apply</button>"
                 }
             ],
-            searching: true,
             ajax: "{% url 'getTournament' %}"
         });
 
-        // Apply the search
-        dt_table.columns().every( function () {
-            var that = this;
-            $('input', this.footer() ).on( 'keyup change', function () {
-    
-                if ( that.search() !== this.value) {
-                    that
-                        .search( this.value )
-                        .draw();
-                }
-            });
-        });
-
         $('.datatable tbody').on( 'click', '#apply', function () {
-            /* var data = dt_table.row( $(this).parents('tr') ).data();
-            window.location.href = "/edit/" + data[0] + "/tournament"; */
-            console.log('object');
+            var data = dt_table.row( $(this).parents('tr') ).data();
+            window.location.href = "/apply/" + data[0] + "/tournament";
         });
     });
 </script>

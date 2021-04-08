@@ -153,57 +153,37 @@
                 {
                     name: 'id',
                     orderable: false,
-                    searchable: false,
                     targets: [0]
                 },
                 {
                     name: 'winners_for',
                     orderable: false,
-                    searchable: true,
                     targets: [1]
                 },
                 {
                     name: 'gold',
                     orderable: false,
-                    searchable: true,
                     targets: [2]
                 },
                 {
                     name: 'silver',
                     orderable: false,
-                    searchable: true,
                     targets: [3]
                 },
                 {
                     name: 'bronze',
                     orderable: false,
-                    searchable: true,
                     targets: [4]
                 },
                 {
                     visible: true,
                     orderable: false,
-                    searchable: false,
                     data: null,
                     targets: [5],
                     defaultContent: "<button id='edit' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Edit</button><button id='delete' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2'>Delete</button>"
                 }
             ],
-            searching: true,
             ajax: "{% url 'getWinners' %}"
-        });
-
-        // Apply the search
-        dt_table.columns().every( function () {
-            var that = this;
-            $('input', this.footer() ).on( 'keyup change', function () {
-    
-                if ( that.search() !== this.value) {
-                    that
-                        .search( this.value )
-                        .draw();
-                }
-            });
         });
 
         $('.datatable tbody').on( 'click', '#edit', function () {
@@ -230,56 +210,36 @@
                 {
                     name: 'id',
                     orderable: false,
-                    searchable: false,
                     targets: [0]
                 },
                 {
                     name: 'tournament',
                     orderable: false,
-                    searchable: true,
                     targets: [1]
                 },
                 {
                     name: 'gold',
                     orderable: false,
-                    searchable: true,
                     targets: [2]
                 },
                 {
                     name: 'silver',
                     orderable: false,
-                    searchable: true,
                     targets: [3]
                 },
                 {
                     name: 'bronze',
                     orderable: false,
-                    searchable: true,
                     targets: [4]
                 },
                 {
                     visible: false,
                     orderable: false,
-                    searchable: false,
                     data: null,
                     targets: [5]
                 }
             ],
-            searching: true,
             ajax: "{% url 'getWinners' %}"
-        });
-
-        // Apply the search
-        dt_table.columns().every( function () {
-            var that = this;
-            $('input', this.footer() ).on( 'keyup change', function () {
-    
-                if ( that.search() !== this.value) {
-                    that
-                        .search( this.value )
-                        .draw();
-                }
-            });
         });
     });
 </script>

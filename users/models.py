@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Tournament(models.Model):
     LEVEL = (
@@ -23,6 +24,8 @@ class Tournament(models.Model):
     tournament = models.CharField(max_length=20, choices=TOURNAMENTS)
     gender = models.CharField(max_length=20, choices=GENDER)
     date = models.DateField(blank=True, null=True)
+    added_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='added_by')
     venue = models.CharField(max_length=60)
 
     def __unicode__(self):
@@ -37,6 +40,25 @@ class Winners(models.Model):
 
     def __unicode__(self):
         return self.winners_for
+
+class Participated(models.Model):
+    participate_for = models.ForeignKey(
+        Tournament, on_delete=models.CASCADE, related_name='participate_for')
+    team_name = models.CharField(max_length=100)
+    player_1 = models.CharField(max_length=100)
+    player_2 = models.CharField(max_length=100)
+    player_3 = models.CharField(max_length=100)
+    player_4 = models.CharField(max_length=100)
+    player_5 = models.CharField(max_length=100)
+    player_6 = models.CharField(max_length=100)
+    player_7 = models.CharField(max_length=100)
+    player_8 = models.CharField(max_length=100)
+    player_9 = models.CharField(max_length=100)
+    player_10 = models.CharField(max_length=100)
+    player_11 = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.participate_for
 
 class StaffEntry(models.Model):
     username = models.CharField(max_length=100)

@@ -1,5 +1,5 @@
 from django.urls import include, path
-from users.views import dashboard, register, staff, tournaments, winners, addTournament, addWinners, editTournament, editWinners, delTournament, delWinners, TournamentJson, WinnerJson
+from users.views import dashboard, register, staff, tournaments, winners, addTournament, applyTournament, addWinners, editTournament, editWinners, delTournament, delWinners, TournamentJson, WinnerJson
 
 urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
@@ -10,6 +10,7 @@ urlpatterns = [
     path("tournaments/", tournaments, name="tournaments"),
     path("add/tournament/", addTournament, name="add_tournaments"),
     path("edit/<int:id>/tournament/", editTournament, name="edit_tournaments"),
+    path("apply/<int:id>/tournament/", applyTournament, name="apply_tournaments"),
     path("tournament/delete", delTournament, name="delete_tournament"),
 
     # WINNER
