@@ -133,10 +133,11 @@
                     <th data-priority="1">ID</th>
                     <th data-priority="2">Level</th>
                     <th data-priority="3">Tournament</th>
-                    <th data-priority="4">Gender</th>
-                    <th data-priority="5">Date</th>
-                    <th data-priority="6">Venue</th>
-                    <th data-priority="7">Action</th>
+                    <th data-priority="4">Added By</th>
+                    <th data-priority="5">Gender</th>
+                    <th data-priority="6">Date</th>
+                    <th data-priority="7">Venue</th>
+                    <th data-priority="8">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -167,25 +168,30 @@
                     targets: [2]
                 },
                 {
-                    name: 'gender',
+                    name: 'added_by',
                     orderable: false,
                     targets: [3]
                 },
                 {
-                    name: 'date',
+                    name: 'gender',
                     orderable: false,
                     targets: [4]
                 },
                 {
-                    name: 'venue',
+                    name: 'date',
                     orderable: false,
                     targets: [5]
-                }, 
+                },
+                {
+                    name: 'venue',
+                    orderable: false,
+                    targets: [6]
+                },
                 {
                     visible: true,
                     orderable: false,
                     data: null,
-                    targets: [6],
+                    targets: [7],
                     defaultContent: "<button id='edit' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Edit</button><button id='delete' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2'>Delete</button>"
                 }
             ],
@@ -229,24 +235,29 @@
                     targets: [2]
                 },
                 {
-                    name: 'gender',
+                    name: 'added_by',
                     orderable: false,
                     targets: [3]
                 },
                 {
-                    name: 'date',
+                    name: 'gender',
                     orderable: false,
                     targets: [4]
                 },
                 {
-                    name: 'venue',
+                    name: 'date',
                     orderable: false,
                     targets: [5]
+                },
+                {
+                    name: 'venue',
+                    orderable: false,
+                    targets: [6]
                 }, 
                 {
                     orderable: false,
                     data: null,
-                    targets: [6],
+                    targets: [7],
                     defaultContent: "<button id='apply' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Apply</button>"
                 }
             ],

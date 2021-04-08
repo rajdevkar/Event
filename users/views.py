@@ -44,7 +44,7 @@ def register(request):
 ## Tournament JSON
 class TournamentJson(BaseDatatableView):
     tournament = Tournament
-    columns = ['id', 'level', 'tournament', 'gender', 'date', 'venue']
+    columns = ['id', 'level', 'tournament', 'added_by', 'gender', 'date', 'venue']
 
     def filter_queryset(self, qs):
         search = self.request.GET.get(u'search[value]', None)
